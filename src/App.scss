@@ -1,0 +1,76 @@
+$blue:  #0123ba;
+$orange: darkorange;
+
+body {
+  background: $blue;
+  color: #fff;
+  font-size: 16px;
+  animation: vhsSkew 20s;
+  animation-iteration-count: infinite;
+}
+.App {
+  margin: 3em 3em;
+}
+
+@font-face {
+  font-family: vhs;
+  src: url(fonts/RealVhsFontRegular-WyV0z.ttf);
+}
+@font-face {
+  font-family: futura;
+  src: url(fonts/FuturaBold.ttf);
+}
+
+@keyframes vhsSkew {
+  0% {
+    transform: skew(0);
+  }
+  50% {
+    transform: skew(0.01rad);
+  }
+  99% {
+    transform: skew(0);
+  }
+}
+
+/* Weather Cards */
+.weatherCard {
+  .cardData {
+    display: inline-block;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    img {
+      display: block;
+    }
+
+  }
+
+}
+
+/* Masthead */
+.masthead {
+  margin-top: 2em;
+  max-height: 100px;
+  width: 85%;
+  border-style: solid;
+  height: 0;
+  background: $orange;
+  border-width: 100px 100px 0px 0px;
+  border-color: transparent   $blue transparent transparent ;
+  margin-bottom: 2em;
+  .logo {
+    margin-top: -6.66em;
+    margin-left: 3em;
+    height: 120px;
+    width: 120px;
+    font-weight: 900;
+    text-align: center;
+    .logoBorder {
+      margin-top: -1em;
+      border: 5px solid white;
+      border-radius: 5px;
+      padding: 1em;
+      background:#0123ba;
+    }
+  }
+}
