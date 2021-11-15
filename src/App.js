@@ -80,8 +80,6 @@ function App() {
       <AudioPlayer />
       <Masthead />
       <div className="App">
-{/*         <h2>Your IP Address is</h2>
-        <h4>{ip}</h4> */}
         {locationData.city !== "" && (
           <h2 className="title">
             Weather Forecast for {locationData.city}, {locationData.state},{" "}

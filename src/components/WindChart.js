@@ -2,14 +2,7 @@ import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 const WindChart = ({ completeForecast }) => {
-  /*
-  Note: Both React and D3 want to control the DOM
-  By using ref, this is possible
-*/
-
   const svgRefLine = useRef();
-
-  //const [data] = useState([25, 50, 35, 15, 94, 10]);
 
   useEffect(() => {
     let dataArr = [];
@@ -20,12 +13,7 @@ const WindChart = ({ completeForecast }) => {
       else windForecast = parseInt(windForecast[2]);
 
       dataArr.push(windForecast);
-      //if (index ===0 || index%2 != 0) {
       tickArr.push(obj.name);
-      //}
-      //else {
-      //tickArr.push('');
-      //}
     });
     console.log("Wind Chart Data: ", dataArr);
     console.log("Tick Arr: ", tickArr);
@@ -47,22 +35,10 @@ const WindChart = ({ completeForecast }) => {
       .line()
       .x((d, i) => xScale(i))
       .y(yScale);
-    // setting the axes of the chart
-
-    /*     const xAxis = d3
-      .axisBottom(xScale)
-     .tickFormat((i) => i); */
-
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(14)
       .tickFormat((d, i) => tickArr[i]);
-    /* .tickValues(
-        tickArr.map(function (d) {
-          return d;
-        }) 
-      );*/
-
     const yAxis = d3.axisLeft(yScale).ticks(5);
     svg
       .append("g")
@@ -84,22 +60,9 @@ const WindChart = ({ completeForecast }) => {
     // setting the data for the svg
     svg
       .selectAll(".xticks text")
-      //.attr('transform','translate(-10,55) rotate(-90)')
       .attr("transform", "translate(-10,5) rotate(-65)")
-      //.attr('writing-mode',"tb")
       .attr("text-anchor", "end");
 
-    /*svg.append('g')
-        .selectAll("dot")
-        .data([dataArr])
-        .enter()
-        .append("circle")
-        .attr("cx", function (d) { return xScale(d[0]); } )
-        .attr("cy", function (d) {return yScale(d[0]); } )
-        .attr("r", 5)
-        .attr("transform", "translate(" + 100 + "," + 100 + ")")
-        .style("fill", "#CC0000");
-        */
     svg
       .selectAll(".line")
       .data([dataArr])

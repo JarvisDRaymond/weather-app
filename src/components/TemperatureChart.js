@@ -2,14 +2,7 @@ import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 const TemperatureChart = ({ completeForecast }) => {
-  /*
-  Note: Both React and D3 want to control the DOM
-  By using ref, this is possible
-*/
-
   const svgRefLine = useRef();
-
-  //const [data] = useState([25, 50, 35, 15, 94, 10]);
 
   useEffect(() => {
     let dataArr = [];
@@ -43,21 +36,11 @@ const TemperatureChart = ({ completeForecast }) => {
       .line()
       .x((d, i) => xScale(i))
       .y(yScale);
-    // setting the axes of the chart
-
-    /*     const xAxis = d3
-      .axisBottom(xScale)
-     .tickFormat((i) => i); */
 
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(14)
       .tickFormat((d, i) => tickArr[i]);
-    /* .tickValues(
-        tickArr.map(function (d) {
-          return d;
-        }) 
-      );*/
 
     const yAxis = d3.axisLeft(yScale).ticks(5);
     svg
@@ -80,22 +63,9 @@ const TemperatureChart = ({ completeForecast }) => {
     // setting the data for the svg
     svg
       .selectAll(".xticks text")
-      //.attr('transform','translate(-10,55) rotate(-90)')
       .attr("transform", "translate(-10,5) rotate(-65)")
-      //.attr('writing-mode',"tb")
       .attr("text-anchor", "end");
 
-    /*svg.append('g')
-        .selectAll("dot")
-        .data([dataArr])
-        .enter()
-        .append("circle")
-        .attr("cx", function (d) { return xScale(d[0]); } )
-        .attr("cy", function (d) {return yScale(d[0]); } )
-        .attr("r", 5)
-        .attr("transform", "translate(" + 100 + "," + 100 + ")")
-        .style("fill", "#CC0000");
-        */
     svg
       .selectAll(".line")
       .data([dataArr])
