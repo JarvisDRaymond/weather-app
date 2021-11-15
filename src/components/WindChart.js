@@ -15,18 +15,16 @@ const WindChart = ({ completeForecast }) => {
     let dataArr = [];
     let tickArr = [];
     completeForecast.forEach((obj, index) => {
-      let windForecast = obj.windSpeed.split(' ');
-      if (windForecast.length ===2 )
-      windForecast = parseInt(windForecast[0]);
-else
-        windForecast = parseInt(windForecast[2]);
+      let windForecast = obj.windSpeed.split(" ");
+      if (windForecast.length === 2) windForecast = parseInt(windForecast[0]);
+      else windForecast = parseInt(windForecast[2]);
 
       dataArr.push(windForecast);
       //if (index ===0 || index%2 != 0) {
-        tickArr.push((obj.name));
+      tickArr.push(obj.name);
       //}
       //else {
-        //tickArr.push('');
+      //tickArr.push('');
       //}
     });
     console.log("Wind Chart Data: ", dataArr);
@@ -34,7 +32,7 @@ else
 
     //setting up svg
     const w = 500;
-    const h =  50;
+    const h = 50;
     const svg = d3
       .select(svgRefLine.current)
       .attr("width", w)
@@ -58,15 +56,19 @@ else
     const xAxis = d3
       .axisBottom(xScale)
       .ticks(14)
-      .tickFormat((d, i) => tickArr[i])
-      /* .tickValues(
+      .tickFormat((d, i) => tickArr[i]);
+    /* .tickValues(
         tickArr.map(function (d) {
           return d;
         }) 
       );*/
 
     const yAxis = d3.axisLeft(yScale).ticks(5);
-    svg.append("g").call(xAxis).classed('xticks',true).attr("transform", `translate(0, ${h}) `);
+    svg
+      .append("g")
+      .call(xAxis)
+      .classed("xticks", true)
+      .attr("transform", `translate(0, ${h}) `);
     svg.append("g").call(yAxis);
     svg
       .append("text")
@@ -83,9 +85,9 @@ else
     svg
       .selectAll(".xticks text")
       //.attr('transform','translate(-10,55) rotate(-90)')
-      .attr('transform','translate(-10,5) rotate(-65)')
+      .attr("transform", "translate(-10,5) rotate(-65)")
       //.attr('writing-mode',"tb")
-      .attr('text-anchor',"end")
+      .attr("text-anchor", "end");
 
     /*svg.append('g')
         .selectAll("dot")
@@ -104,11 +106,12 @@ else
       .join("path")
       .attr("d", (d) => generateScaledLine(d))
       .attr("fill", "none")
+      .attr("stroke-width", "2")
       .attr("stroke", "orange");
   }, [completeForecast]);
 
   return (
-    <div>
+    <div className="svg-container">
       <svg ref={svgRefLine}></svg>
     </div>
   );

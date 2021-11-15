@@ -1,50 +1,65 @@
-$blue:  #0123ba;
+$blue: #0123ba;
 $orange: darkorange;
+
+@mixin vhsTitle {
+  font-family: vhs;
+  font-size: 25px;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 2em 0;
+}
 
 body {
   background: $blue;
   color: #fff;
   font-size: 16px;
-  animation: vhsSkew 20s;
-  animation-iteration-count: infinite;
 }
 .App {
   margin: 3em 3em;
+  .title,
+  .forecast-viz h2 {
+    @include vhsTitle();
+  }
 }
 
 @font-face {
   font-family: vhs;
-  src: url(fonts/RealVhsFontRegular-WyV0z.ttf);
+  //src: url(fonts/RealVhsFontRegular-WyV0z.ttf);
+  src: url(fonts/VCR_OSD_MONO_1.001.ttf);
 }
 @font-face {
   font-family: futura;
   src: url(fonts/FuturaBold.ttf);
 }
 
-@keyframes vhsSkew {
-  0% {
-    transform: skew(0);
-  }
-  50% {
-    transform: skew(0.01rad);
-  }
-  99% {
-    transform: skew(0);
-  }
-}
-
 /* Weather Cards */
 .weatherCard {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -20px;
+  .firstHalf {
+    height: 50%;
+  }
   .cardData {
-    display: inline-block;
+    flex: 1 0 21%; /* explanation below */
+    margin: 5px;
+    text-align: center;
     border: 3px solid #fff;
     border-radius: 5px;
+    padding-bottom: 4em;
+    h3 {
+      /* font-family: vhs;
+      text-transform: uppercase;
+      font-size: 16px; */
+    }
     img {
+      margin: 0 auto;
       display: block;
     }
-
+    p {
+      padding: 0 10px;
+    }
   }
-
 }
 
 /* Masthead */
@@ -56,8 +71,15 @@ body {
   height: 0;
   background: $orange;
   border-width: 100px 100px 0px 0px;
-  border-color: transparent   $blue transparent transparent ;
+  border-color: transparent $blue transparent transparent;
   margin-bottom: 2em;
+  .time {
+    float: right;
+    font-family: vhs;
+    font-size: 20px;
+    margin-top: -22px;
+
+  }
   .logo {
     margin-top: -6.66em;
     margin-left: 3em;
@@ -70,7 +92,64 @@ body {
       border: 5px solid white;
       border-radius: 5px;
       padding: 1em;
-      background:#0123ba;
+      background: #0123ba;
     }
+  }
+}
+
+/* RESPONSIVE SVG */
+
+.forecast-viz {
+  text-align: center;
+  margin-top: 3em;
+}
+
+.chart-container {
+  //display: flex;
+}
+
+/* 
+.svg-container { 
+  flex: 50%;
+  margin: 5px;
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	padding-bottom: 100%; 
+	vertical-align: middle; 
+	overflow: hidden; 
+}
+.svg-content { 
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+} */
+.svg-content {
+  overflow-x: scroll;
+}
+
+.techInfo {
+  margin-top: 10em;
+  border-top: 3px solid white;
+  h2 {
+    @include vhsTitle();
+  }
+  .techContent {
+    margin: 0 10% 50px 10%;
+  }
+}
+.audioPlayer {
+  audio {
+    height: 25px;
+    position: fixed;
+    top: 0;
+    background: transparent;
+    right: 0;
+  }
+  audio::-webkit-media-controls-play-button,
+  audio::-webkit-media-controls-panel {
+    background-color: $blue;
+
   }
 }

@@ -5,6 +5,8 @@ import TemperatureChart from "./components/TemperatureChart";
 import WeatherCards from "./components/WeatherCards";
 import WindChart from "./components/WindChart";
 import Masthead from "./components/masthead/Masthead";
+import TechInfo from "./components/TechInfo";
+import AudioPlayer from "./components/AudioPlayer";
 
 function App() {
   const [ip, setIP] = useState("");
@@ -15,6 +17,7 @@ function App() {
   });
   const [detailedForecast0, setDetailedForecast0] = useState("");
   const [completeForecast, setCompleteForecast] = useState([]);
+  const [apiError, setApiError] = useState("");
 
   //creating function to load ip address from the API
   const getIpData = async () => {
@@ -46,12 +49,20 @@ function App() {
   }, []);
 
   const getPointData = async (latitude, longitude) => {
-    const res = await axios.get(
-      `https://api.weather.gov/points/${latitude},${longitude}`
-    );
-    console.log("THE POINT DATA: ", res.data);
-    console.log("THE FORECAST URL: ", res.data.properties.forecast);
-    getForecastInfo(res.data.properties.forecast);
+    try {
+      const res = await axios.get(
+        `https://api.weather.gov/points/${latitude},${longitude}`
+      );
+      console.log("THE POINT DATA: ", res.data);
+      console.log("THE FORECAST URL: ", res.data.properties.forecast);
+      getForecastInfo(res.data.properties.forecast);
+    }
+    catch {
+      console.error("Unable to fetch data from getPoint Data API");
+      setApiError('Unable to retrieve weather data for your region');
+
+    }
+
   };
   const getForecastInfo = async (forecastURL) => {
     const res = await axios.get(forecastURL);
@@ -66,35 +77,33 @@ function App() {
 
   return (
     <>
-      {" "}
+      <AudioPlayer />
       <Masthead />
       <div className="App">
-        <h2>Your IP Address is</h2>
-        <h4>{ip}</h4>
+{/*         <h2>Your IP Address is</h2>
+        <h4>{ip}</h4> */}
         {locationData.city !== "" && (
-          <h2>
-            Weather Data for {locationData.city}, {locationData.state},{" "}
+          <h2 className="title">
+            Weather Forecast for {locationData.city}, {locationData.state},{" "}
             {locationData.country}
           </h2>
         )}
         {completeForecast.length > 0 && (
           <>
-            <h5>Current Weather</h5>
-            <p>{detailedForecast0}</p>
 
-            <h5>5 Day Forecast Temperatures</h5>
-            {completeForecast.map((obj, index) => (
-              <span>
-                {obj.name}: {obj.temperature}&deg;{obj.temperatureUnit}
-                <br />
-              </span>
-            ))}
             <WeatherCards completeForecast={completeForecast} />
-            <TemperatureChart completeForecast={completeForecast} />
-            <WindChart completeForecast={completeForecast} />
+            <div className="forecast-viz">
+              <h2>7 Day Forecast Visualized</h2>
+              <div className="chart-container">
+                <TemperatureChart completeForecast={completeForecast} />
+                <WindChart completeForecast={completeForecast} />
+              </div>
+            </div>
           </>
         )}
+        {apiError !== '' && (<div className='title'>{apiError}</div>)}
       </div>
+      <TechInfo />
     </>
   );
 }
